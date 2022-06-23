@@ -1,37 +1,38 @@
 from random import choice
-from rpcPresets import rock, paper, scissors
+from Weapon import Weapon
+from rpcPresets import rock_txt, paper_txt, scissors_txt, gun_txt
 
-def checkInput(value):
-    if value not in ['0', '1', '2']:
+def CheckInput(value, actions):
+    try:
+        value = int(value)
+        if value not in [i.id for i in actions]:
+            raise ValueError
+        return value
+    except ValueError:
         print("Wrong input. Try again!")
         exit()
-    return value
 
-gameActions = [rock, paper, scissors]
+actions = [
+    Weapon(0, "Rock", rock_txt, [2, 3], [0], [1]),
+    Weapon(1, "Paper", paper_txt, [0], [1], [2, 3]),
+    Weapon(2, "Scissors", scissors_txt, [1], [2], [0, 3]),
+    Weapon(3, "Gun", gun_txt, [1, 2], [3], [0]),
+]
 
-userChoice = checkInput(input("What do you choose? Type 0 for Rock, 1 for Paper or 2 for Scissors.\n--> "))
-match(userChoice):
-    case '0':
-        print(rock)
-    case '1':
-        print(paper)
-    case '2':
-        print(scissors)
+print("__<Welcome to Rock Paper Scissors extended edition>__")
+userChoice = CheckInput(input("What do you choose? Type:\n " + ''.join([f"| {action.id} | for {action.name} |\n " for action in actions]) + "\n--> "), actions)
+userAction = next(action for action in actions if action.id == userChoice)
+userActionPreset = userAction.getPreset()
 
-computerChoice = choice(['0', '1', '2'])
-print("Computer chose: ")
-match(computerChoice):
-    case '0':
-        print(rock)
-    case '1':
-        print(paper)
-    case '2':
-        print(scissors)
+print("\nComputer chose:")
+computerChoice = choice([action.id for action in actions]) 
+computerAction = next(action for action in actions if action.id == computerChoice)
+computerActionPreset = computerAction.getPreset()
 
-if (userChoice == '0' and computerChoice == '2') or (userChoice == '1' and computerChoice == '0') or (userChoice == '2' and computerChoice == '1'):
-    print("You Win!")
-elif userChoice == computerChoice:
-    print("It`s a Draw. Try again!")
-else:
-    print("You Lose!")
-
+match(userAction.compareAction(computerAction)):
+    case True:
+        print("You Win!")
+    case False:
+        print("You Lose!")
+    case _:
+        print("It`s a Draw. Try again!")
