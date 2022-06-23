@@ -1,4 +1,4 @@
-rock = '''
+rock_txt = '''
     _______
 ---'   ____)
       (_____)
@@ -6,7 +6,7 @@ rock = '''
       (____)
 ---.__(___)
 '''
-paper = '''
+paper_txt = '''
     _______
 ---'   ____)____
           ______)
@@ -15,7 +15,7 @@ paper = '''
 ---.__________)
 '''
 
-scissors = '''
+scissors_txt = '''
     _______
 ---'   ____)____
           ______)
@@ -24,7 +24,19 @@ scissors = '''
 ---.__(___)
 '''
 
+gun_txt = '''
+        __    
+      _|  | 
+    _|   |
+---'  _|__________
+          ________)
+      (_____)
+      (____)
+---.__(___)
+
+'''
+
 if __name__ == "__main__":
-    print ("(rock, paper, scissors) Graphics_Presets")
+    print ("(rock, paper, scissors, gun) Graphics_Presets")
 else:
     pass
