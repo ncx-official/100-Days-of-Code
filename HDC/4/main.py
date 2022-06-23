@@ -19,6 +19,7 @@ match(userChoice):
         print(scissors)
 
 computerChoice = choice(['0', '1', '2'])
+print("Computer chose: ")
 match(computerChoice):
     case '0':
         print(rock)
