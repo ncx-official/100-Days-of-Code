@@ -31,8 +31,8 @@ computerActionPreset = computerAction.getPreset()
 
 match(userAction.compareAction(computerAction)):
     case True:
-        print("You Win!")
+        input("You Win!\n")
     case False:
-        print("You Lose!")
+        input("You Lose!\n")
     case _:
-        print("It`s a Draw. Try again!")
+        input("It`s a Draw. Try again!\n")
