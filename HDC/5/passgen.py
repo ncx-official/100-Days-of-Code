@@ -68,7 +68,7 @@ def GeneratePassword(symbolsString, symbolsCount):
 
 def StartUpArgsParse():
     argParser = argparse.ArgumentParser(description='Password generator version 2.0')
-    argParser.add_argument("-pl", "--password_length", help="Input count of password characters (default = 6)", type=int, default=6)
+    argParser.add_argument("-pl", "--password_length", help="Input count of password characters", type=int)
     argParser.add_argument("-u", "--uppercase", help="To generate password with uppercase characters", action="store_true")
     argParser.add_argument("-l", "--lowercase", help="To generate password with lowercase characters", action="store_true")
     argParser.add_argument("-n", "--numbers", help="To generate password with numbers", action="store_true")
@@ -96,8 +96,7 @@ def MenuScreen():
         if symbCount == -1: continue
         ClearScreen()
         
-        a = SetSymbolsOption() 
-        if  a == -1: continue     
+        if  SetSymbolsOption() == -1: continue     
         symbString = CreateSymbolsString()
         ClearScreen()
 
