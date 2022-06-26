@@ -1,3 +1,4 @@
+from ast import arg
 from os import system, name as systemName
 import random
 import argparse
@@ -67,7 +68,7 @@ def GeneratePassword(symbolsString, symbolsCount):
 
 def StartUpArgsParse():
     argParser = argparse.ArgumentParser(description='Password generator version 2.0')
-    argParser.add_argument("-pl", "--password_length", help="Input count of password characters", type=int)
+    argParser.add_argument("-pl", "--password_length", help="Input count of password characters (default = 6)", type=int, default=6)
     argParser.add_argument("-u", "--uppercase", help="To generate password with uppercase characters", action="store_true")
     argParser.add_argument("-l", "--lowercase", help="To generate password with lowercase characters", action="store_true")
     argParser.add_argument("-n", "--numbers", help="To generate password with numbers", action="store_true")
@@ -77,13 +78,12 @@ def StartUpArgsParse():
     if args.password_length == None:
         return
 
-    options = {
-        "uppercase": args.uppercase,
-        "lowercase": args.lowercase,
-        "numbers": args.numbers,
-        "special": args.special_symbols
-    }
-    input(f"Password: {GeneratePassword(CreateSymbolsString(options), args.password_length)}\n")
+    SymbolOption.uppercase.value[0] = args.uppercase
+    SymbolOption.lowercase.value[0] = args.lowercase
+    SymbolOption.numbers.value[0] = args.numbers
+    SymbolOption.special.value[0] = args.special_symbols
+
+    input(f"Password: {GeneratePassword(CreateSymbolsString(), args.password_length)}\n")
     ClearScreen()
     exit()
 
