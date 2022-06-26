@@ -10,8 +10,18 @@ def ClearScreen():
         _ = system('clear')
 
 def AboutProgram():
-    print("________<PasswordMaker>________   ver. 2.0\n")
-
+    logo = '''
+     _____                               
+    |  __ \                              
+    | |__) |_ _ ___ ___  __ _  ___ _ __  
+    |  ___/ _` / __/ __|/ _` |/ _ \ '_ \ 
+    | |  | (_| \__ \__ \ (_| |  __/ | | |
+    |_|   \__,_|___/___/\__, |\___|_| |_|
+                        __/ |           
+                        |___/             by Ncx (ver. 2.0)
+    '''
+    print(logo)
+    
 def AskToQuit():
     userInput = input("Input 'q' to exit or press enter to continue\n--> ")
     if userInput.lower() == 'q':
