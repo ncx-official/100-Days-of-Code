@@ -1,10 +1,10 @@
 from os import system, name as systemName
 import random
-import string
 import argparse
 import re
 
 import asciiArts
+from SymbolOption import SymbolOption
 
 def ClearScreen():
     if systemName == 'nt':
@@ -21,67 +21,45 @@ def AskToQuit():
         ClearScreen()
         exit(1)
 
-def GetSymbolsCount(question):
+def GetSymbolsCount():
     try:
-        symbCount = int(input(question))
+        userInput = input("Enter number of password length: ")
+        if userInput == 'q':
+            exit()
+
+        symbCount = int(userInput)
         if symbCount <= 0:
             raise ValueError
     except ValueError:
         input("\nBad value, please try again...\n")
-        return  
+        return -1  
     return symbCount
 
-def GetSymbolsOption():
-    options = {
-        "uppercase": False,
-        "lowercase": False,
-        "numbers": False,
-        "special": False
-    }
-
+def SetSymbolsOption():
     print(asciiArts.dice)
-    print("\nChoose your password options: (To use all the options type 'ulns')")
-    print(" - UPPERCASE (input 'u')")
-    print(" - lowercase (input 'l')")
-    print(" - numbers 0123..89 (input 'n')")
-    print(" - special symbols ~!@#$%^..?/ (input 's')")
+    print("\nChoose your password options: ")
+    print(" input 'u' - UPPERCASE (ABC..XVZ)")
+    print(" input 'l' - lowercase (abc..xyz)")
+    print(" input 'n' - numbers (012..789)")
+    print(" input 's' - special symbols (!@#..^?/)")
     optionsInput = input("--> ").lower()
     
-    if optionsInput == '' or re.search('[^ulns]', optionsInput):
+    if optionsInput == '' or re.search('[^ulns ,]', optionsInput):
         input("Wrong input! Try again...\n")
-        return
+        return -1
 
-    if 'u' in optionsInput:
-        options["uppercase"] = True    
-    
-    if 'l' in optionsInput:
-        options["lowercase"] = True
-    
-    if 'n' in optionsInput:
-        options["numbers"] = True
+    for option in SymbolOption:
+        if option.name[0] in optionsInput:
+            option.value[0] = True
 
-    if 's' in optionsInput:
-        options["special"] = True
-
-    return options
-
-def CreateSymbolsString(options):
+def CreateSymbolsString():
     symbolsString = ""
-    if options["uppercase"]:
-        symbolsString += string.ascii_uppercase
-    if options["lowercase"]:
-        symbolsString += string.ascii_lowercase
-    if options["numbers"]:
-        symbolsString += string.digits
-    if options["special"]:
-        symbolsString += string.punctuation
-
+    for option in SymbolOption:
+        if option.value[0] == True:
+            symbolsString += option.value[1]
     return symbolsString
 
 def GeneratePassword(symbolsString, symbolsCount):
-    if symbolsString == "":
-        return "None"
-
     generatedPass = ""
     for symb in range(symbolsCount):
         generatedPass += random.choice(symbolsString)
@@ -114,13 +92,13 @@ def MenuScreen():
         ClearScreen()
         AboutProgram()
 
-        symbCount = GetSymbolsCount("Enter number of password length: ")
-        if symbCount == None: continue
+        symbCount = GetSymbolsCount()
+        if symbCount == -1: continue
         ClearScreen()
         
-        options = GetSymbolsOption()
-        if options == None: continue
-        symbString = CreateSymbolsString(options)
+        a = SetSymbolsOption() 
+        if  a == -1: continue     
+        symbString = CreateSymbolsString()
         ClearScreen()
 
         password = GeneratePassword(symbString, symbCount)
